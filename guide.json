@@ -1,0 +1,108 @@
+{
+  "owner": "JUTZUGC",
+  "code": "JUTZUGC",
+  "project": {
+    "key": "aerialtv",
+    "nameCn": "Aerial",
+    "repoName": "aerial-tv-deploy-guide",
+    "oneLiner": "7.2k stars，MIT，参照 tvOS 的无广告 Android TV 桌面",
+    "officialRepo": "https://github.com/pengchujin/aerial-tv",
+    "officialDocs": "https://github.com/pengchujin/aerial-tv/blob/main/README.md",
+    "stars": "7.2k",
+    "license": "MIT",
+    "highlights": [
+      "无广告：没有推荐流和会员角标，只有 App、壁纸与屏保",
+      "整理能力：长按移动、文件夹、隐藏、卸载、设为开机启动",
+      "手机整理：扫电视二维码，在手机上拖动排序、改名、换图标",
+      "屏保与壁纸：航拍影片、必应每日精选、本地照片与视频",
+      "控制中心：信号源、网络、设置、音量、亮度与个性化",
+      "不 root：不改系统应用，随时可以还原"
+    ],
+    "mcpSupport": "Aerial 本身不含 MCP；本仓库的 MCP 只提供安装步骤、分品牌 ADB 指引与常见问题，不参与电视桌面控制。",
+    "webuiUrl": "",
+    "adapterPorts": "",
+    "collectedAt": "2026-10-28",
+    "verification": [
+      [
+        "Release v1.67 的 aerial-standard.apk 已下载，SHA256 与 Release 记录一致（2.9 MB）",
+        "已核对 2026-10-28"
+      ],
+      [
+        "aerial-guard.apk / aerial-lite.apk 的资产与 SHA256 digest 已核对",
+        "已核对 2026-10-28"
+      ],
+      [
+        "README 确认分品牌 ADB 步骤、三个安装包用途与验收命令",
+        "已核对 2026-10-28"
+      ],
+      [
+        "未实测安装（本机无 Android TV 设备）",
+        "说明 2026-10-28"
+      ],
+      [
+        "非目标宿主调用被拦截（HOST_NOT_ALLOWED）",
+        "已验证 2026-10-28"
+      ]
+    ],
+    "deploy": {
+      "type": "binary",
+      "steps": [
+        "read -r -p \"请输入电视 IP（例如 192.168.1.20）: \" TV",
+        "curl -fL -o aerial-standard.apk \"https://github.com/pengchujin/aerial-tv/releases/download/v1.67/aerial-standard.apk\"",
+        "echo \"29e5bda2350305d7d63c9dae0339ac885722fa42f239f51bbbb3bd133cf606ad  aerial-standard.apk\" | sha256sum -c -",
+        "if command -v adb >/dev/null 2>&1; then adb connect \"$TV:5555\" && adb install -r aerial-standard.apk && adb shell pm grant app.orchard.tv android.permission.WRITE_SECURE_SETTINGS && adb shell am start -n app.orchard.tv/.MainActivity; else echo \"未检测到 adb：请把 aerial-standard.apk 拷到 U 盘，用电视文件管理器安装\"; fi"
+      ],
+      "stepsPs": [
+        "$TV = Read-Host '请输入电视 IP（例如 192.168.1.20）'",
+        "curl.exe -L --fail -o aerial-standard.apk \"https://github.com/pengchujin/aerial-tv/releases/download/v1.67/aerial-standard.apk\"",
+        "if ((Get-FileHash aerial-standard.apk -Algorithm SHA256).Hash.ToLower() -ne '29e5bda2350305d7d63c9dae0339ac885722fa42f239f51bbbb3bd133cf606ad') { throw 'SHA256 校验失败，请重新下载' }",
+        "if (Get-Command adb -ErrorAction SilentlyContinue) { adb connect \"$TV`:5555\"; adb install -r .\\aerial-standard.apk; adb shell pm grant app.orchard.tv android.permission.WRITE_SECURE_SETTINGS; adb shell am start -n app.orchard.tv/.MainActivity } else { Write-Host '未检测到 adb：请把 aerial-standard.apk 拷到 U 盘安装' }"
+      ],
+      "source": "https://github.com/pengchujin/aerial-tv/releases/tag/v1.67"
+    },
+    "pitfalls": [
+      "找不到 ADB 开关：不同品牌路径不同，按 README 的分品牌说明逐项找",
+      "adb connect 被拒绝：Android 11+ 先无线配对，或先用数据线授权一次再 adb tcpip 5555",
+      "standard 装不上：换 aerial-guard.apk 再试，仍不行说明固件限制桌面类 App",
+      "装完按主页键没反应：到电视设置里打开桌面守护（无障碍）和通知使用权",
+      "重启后回到原桌面：确认 Aerial 已被设为默认桌面，或重新执行启动命令",
+      "升级后设置丢失：正常覆盖安装会保留设置，不要先卸载",
+      "老电视界面异常：Android 4.x 改用 aerial-lite.apk"
+    ]
+  },
+  "gate": {
+    "allow": [
+      "dumate"
+    ],
+    "label": "百度搭子",
+    "url": "https://www.dumate.cn/",
+    "guideUrl": "https://github.com/JUTZUGC/aerial-tv-deploy-guide",
+    "howToFix": [
+      "1. 打开 https://www.dumate.cn/ ，下载并安装「百度搭子」电脑端（Windows / macOS）",
+      "2. 用账号登录",
+      "3. 在对话窗口发送：你好，帮我从 github 部署 JUTZUGC/aerial-tv-deploy-guide 到我的电脑上",
+      "4. 部署完成后，在同一对话窗口里继续使用"
+    ],
+    "hint": "请改用「百度搭子」部署后再使用；本工具没有网页版入口。",
+    "onError": "allow"
+  },
+  "keywords": [
+    "Aerial 安装",
+    "Aerial 电视桌面",
+    "Android TV 桌面",
+    "国产电视 去广告",
+    "电视 换桌面",
+    "Aerial APK",
+    "小米电视 桌面",
+    "TCL 电视 ADB",
+    "Aerial 中文教程",
+    "aerial tv deploy guide"
+  ],
+  "topics": [
+    "android-tv",
+    "launcher",
+    "adb",
+    "tv",
+    "debloat"
+  ]
+}
